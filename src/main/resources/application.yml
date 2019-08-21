@@ -1,0 +1,92 @@
+jasypt:
+  encryptor:
+    password: CTY
+
+server:
+  port: 8090
+  servlet:
+    context-path: /
+  tomcat:
+    uri-encoding: UTF-8
+    max-threads: 1000
+    min-spare-threads: 30
+spring:
+  # 数据源
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/xboot?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    username: root
+    # Jasypt加密 可到common-utils中找到JasyptUtil加解密工具类生成加密结果 格式为ENC(加密结果)
+    password: ENC(6SUD4D0Afg7iplLnYcyIgQ==)
+    type: com.alibaba.druid.pool.DruidDataSource
+    driverClassName: com.mysql.jdbc.Driver
+    logSlowSql: true
+    # Druid StatViewServlet配置
+    druid:
+      stat-view-servlet:
+        # 默认true 内置监控页面首页/druid/index.html
+        enabled: true
+        url-pattern: /druid/*
+        # 允许清空统计数据
+        reset-enable: true
+        login-username: root
+        login-password: ENC(Pst38Pq5c0Qijgf267b9zg==)
+        # IP白名单 多个逗号分隔
+        allow:
+        # IP黑名单
+        deny:
+      filter:
+        stat:
+          # 显示慢sql 默认当超过3秒显示
+          log-slow-sql: true
+  # redis 相关参数配置
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    password:
+
+  # 设置 项目logo 在将自己的 favicon.ico 放到src/main/resources/static下
+  mvc:
+    favicon:
+      enabled: false
+  # Email 邮件服务器
+  mail:
+    #邮箱服务器地址
+    host: smtp.163.com
+    username: 15116952620@163.com
+    password: ENC(KlwuFuGLW1vyWjZeLsS19g==)
+    default-encoding: utf-8
+
+    #引用yml 文件
+  profiles:
+    # 设置使用的配置文件为 random 后缀的
+    active: cus
+
+
+# Swagger界面内容配置
+swagger:
+  title: Develop API接口文档
+  description: Develop Api Documentation
+  version: 1.0.0
+  termsOfServiceUrl: http://192.168.80.22:8090/swagger-ui.html
+  contact:
+    name: Caoty
+    url: 我与码农的故事
+    email: 15116952620@163.com
+
+# Mybatis-plus
+mybatis-plus:
+  mapper-locations: classpath*:mapper/*.xml
+
+# logging 日志
+logging:
+  #文件路径
+  path: ./log/
+  file:
+    file: cty-logs/cty.log
+    #文件大小
+    max-size: 10MB
+  level:
+    # root日志 以WARN级别输出
+    root: info
+    # 此包下所有class以DEBUG级别输出
+    com.example.log_demo.log1: warn
