@@ -4,6 +4,7 @@ import lombok.Data;
 import org.cn.common.utils.ExcelUtil;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.*;
@@ -19,8 +20,11 @@ public class TestController {
 
 
     @GetMapping
-    public String test1(){
-        return "login登录！";
+    public ModelAndView test1(){
+        ModelAndView mv = new ModelAndView();
+        mv.setViewName("login.html");
+        mv.addObject("loginName","懒懒");
+        return mv;
     }
 
     @GetMapping("/test1")

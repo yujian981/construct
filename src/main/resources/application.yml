@@ -42,10 +42,16 @@ spring:
     port: 6379
     password:
 
-  # 设置 项目logo 在将自己的 favicon.ico 放到src/main/resources/static下
-  mvc:
-    favicon:
-      enabled: false
+#thymeleaf 通用模板
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    encoding: UTF-8
+    servlet:
+      content-type: text/html
+    cache: false                      #开发配置为false,避免修改模板还要重启服务器
+    mode: HTML5                       #模板模式
+
 
   # Email 邮件服务器
   mail:
@@ -53,6 +59,11 @@ spring:
     username: 15116952620@163.com
     password: ENC(KlwuFuGLW1vyWjZeLsS19g==)
     default-encoding: utf-8
+
+  # 设置 项目logo 在将自己的 favicon.ico 放到src/main/resources/static下
+  mvc:
+    favicon:
+      enabled: false
 
     #引用yml 文件
   profiles:
