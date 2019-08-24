@@ -1,7 +1,7 @@
-package org.cn.modules.user.service;
+package org.cn.modules.base.service;
 
 import org.cn.common.utils.ServerResponse;
-import org.cn.modules.user.entity.User;
+import org.cn.modules.base.entity.User;
 
 
 public interface UserService {
@@ -17,4 +17,7 @@ public interface UserService {
 
     //修改
     ServerResponse updateUserById(User user);
+
+    //批量删除
+    ServerResponse delUserByids(String[] list);
 }

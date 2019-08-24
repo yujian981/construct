@@ -1,5 +1,5 @@
 #
-# org.cn.modules.user 用户模块
+# org.cn.modules.base 用户模块
 
 #获取所有用户信息
 GET http://localhost:8090/user
@@ -22,9 +22,18 @@ Cache-Control: no-cache
 
 ###
 
+#多选删除
+
+PUT http://localhost:8090/user/delList?list[]=1&list[]=2
+Accept: */*
+Cache-Control: no-cache
+
+###
+
 #修改
 PUT http://localhost:8090/user?id=1165107680015216641&name=王兰兰&age=1&email=1516952620@163.com
 Accept: */*
 Cache-Control: no-cache
 
 ###
+

@@ -1,4 +1,4 @@
-package org.cn.modules.user.entity;
+package org.cn.modules.base.entity;
 
 import lombok.Data;
 

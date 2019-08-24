@@ -1,9 +1,10 @@
-package org.cn.modules.user.service.impl;
+package org.cn.modules.base.service.impl;
 
 import org.cn.common.utils.ServerResponse;
-import org.cn.modules.user.dao.UserMapper;
-import org.cn.modules.user.entity.User;
-import org.cn.modules.user.service.UserService;
+import org.cn.modules.base.dao.BaseMapper;
+import org.cn.modules.base.dao.UserMapper;
+import org.cn.modules.base.entity.User;
+import org.cn.modules.base.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,10 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private BaseMapper baseMapper;
+
+
 
     /**
      * @Author Cty
@@ -62,6 +67,18 @@ public class UserServiceImpl implements UserService {
     public ServerResponse updateUserById(User user) {
 
         int i = userMapper.updateById(user);
+
+        return ServerResponse.success(i);
+    }
+
+    /**
+     * @Author Cty
+     * @Description //TODO 调用xml  批量删除
+     **/
+    @Override
+    public ServerResponse delUserByids(String[] list) {
+
+      Integer i =  baseMapper.delUserByids(list);
 
         return ServerResponse.success(i);
     }

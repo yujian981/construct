@@ -1,8 +1,8 @@
-package org.cn.modules.user.controller;
+package org.cn.modules.base.controller;
 
 import org.cn.common.utils.ServerResponse;
-import org.cn.modules.user.entity.User;
-import org.cn.modules.user.service.UserService;
+import org.cn.modules.base.entity.User;
+import org.cn.modules.base.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -42,5 +42,9 @@ public class UserController {
         return userService.updateUserById(user);
     }
 
-
+    //
+    @PostMapping("/delList")
+    public ServerResponse delUserByIds(@RequestParam("list[]")String... list){
+    return userService.delUserByids(list);
+    }
 }
