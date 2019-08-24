@@ -13,7 +13,7 @@ server:
 spring:
   # 数据源
   datasource:
-    url: jdbc:mysql://127.0.0.1:3306/xboot?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    url: jdbc:mysql://127.0.0.1:3306/ccc?useUnicode=true&characterEncoding=utf-8&useSSL=false
     username: root
     # Jasypt加密 可到common-utils中找到JasyptUtil加解密工具类生成加密结果 格式为ENC(加密结果)
     password: ENC(6SUD4D0Afg7iplLnYcyIgQ==)
@@ -48,18 +48,25 @@ spring:
   mvc:
     favicon:
       enabled: false
+
   # Email 邮件服务器
   mail:
-    #邮箱服务器地址
-    host: smtp.163.com
+    host: smtp.163.com          #邮箱服务器地址
     username: 15116952620@163.com
     password: ENC(KlwuFuGLW1vyWjZeLsS19g==)
     default-encoding: utf-8
 
     #引用yml 文件
   profiles:
-    # 设置使用的配置文件为 random 后缀的
-    active: cus
+    active: cus      # 设置使用的配置文件为 random 后缀的
+
+
+# Mybatis-plus
+mybatis-plus:
+  mapper-locations: classpath*:mapper/*.xml    # xml
+  type-aliases-package: org.cn.modules.*.entity
+  configuration:     # 这个配置会将执行的sql打印出来，在开发或测试的时候可以用
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 
 # Swagger界面内容配置
@@ -73,20 +80,14 @@ swagger:
     url: 我与码农的故事
     email: 15116952620@163.com
 
-# Mybatis-plus
-mybatis-plus:
-  mapper-locations: classpath*:mapper/*.xml
+
 
 # logging 日志
 logging:
-  #文件路径
-  path: ./log/
+  path: ./log/         #文件路径
   file:
     file: cty-logs/cty.log
-    #文件大小
-    max-size: 10MB
+    max-size: 10MB        #文件大小
   level:
-    # root日志 以WARN级别输出
-    root: info
-    # 此包下所有class以DEBUG级别输出
-    com.example.log_demo.log1: warn
+    root: info            # root日志 以WARN级别输出
+    com.example.log_demo.log1: warn           # 此包下所有class以DEBUG级别输出

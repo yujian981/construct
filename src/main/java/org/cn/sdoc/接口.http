@@ -1,0 +1,30 @@
+#
+# org.cn.modules.user 用户模块
+
+#获取所有用户信息
+GET http://localhost:8090/user
+Accept: */*
+Cache-Control: no-cache
+
+###
+
+#新增
+POST http://localhost:8090/user?name=小草&age=26&email=15116952620@163.com
+Accept: */*
+Cache-Control: no-cache
+
+###
+
+#删除
+DELETE http://localhost:8090/user?id=66
+Accept: */*
+Cache-Control: no-cache
+
+###
+
+#修改
+PUT http://localhost:8090/user?id=1165107680015216641&name=王兰兰&age=1&email=1516952620@163.com
+Accept: */*
+Cache-Control: no-cache
+
+###

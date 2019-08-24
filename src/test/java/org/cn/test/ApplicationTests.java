@@ -13,7 +13,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 
 /**
- * @Author Cty 
+ * @Author Cty
  * @Description //TODO 测试类
  **/
 @RunWith(SpringRunner.class)
@@ -28,19 +28,19 @@ public class ApplicationTests {
     private String from;
 
 
-  @Test
-  public void redisTest(){
-      for (int i = 9999; i>0; i--) {
-          RedisUtil.set(RandomUtil.UUID32(),"测试");
-      }
-  }
+    @Test
+    public void redisTest() {
+        for (int i = 9999; i > 0; i--) {
+            RedisUtil.set(RandomUtil.UUID32(), "测试");
+        }
+    }
 
 
-   @Test
-    public void emailTest(){
+    @Test
+    public void emailTest() {
 
         SimpleMailMessage message = new SimpleMailMessage();
-    String[] attr={"13937966441@163.com","15116952620@163.com"};
+        String[] attr = {"13937966441@163.com", "15116952620@163.com"};
         message.setFrom(from);
         message.setTo(attr);
         message.setSubject("早上包子好吃11");
@@ -49,8 +49,6 @@ public class ApplicationTests {
         System.out.println("hello word!111");
         mailSender.send(message);
     }
-
-
 
 
 }

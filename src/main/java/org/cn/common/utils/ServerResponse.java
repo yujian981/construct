@@ -1,4 +1,6 @@
-package org.cn.common.enums;
+package org.cn.common.utils;
+
+import org.cn.common.enums.ResponseEnum;
 
 import java.io.Serializable;
 /**
