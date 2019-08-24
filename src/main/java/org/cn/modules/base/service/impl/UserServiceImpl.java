@@ -1,7 +1,7 @@
 package org.cn.modules.base.service.impl;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.cn.common.utils.ServerResponse;
-import org.cn.modules.base.dao.BaseMapper;
 import org.cn.modules.base.dao.UserMapper;
 import org.cn.modules.base.entity.User;
 import org.cn.modules.base.service.UserService;
@@ -18,8 +18,6 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserMapper userMapper;
-    @Autowired
-    private BaseMapper baseMapper;
 
 
 
@@ -30,7 +28,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public ServerResponse getUserList() {
 
-      List<User> user =userMapper.selectList();
+      List<User> user =this.userMapper.selectList();
 
         return ServerResponse.success(user);
     }
@@ -78,7 +76,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public ServerResponse delUserByids(String[] list) {
 
-      Integer i =  baseMapper.delUserByids(list);
+      Integer i =  userMapper.delUserByids(list);
 
         return ServerResponse.success(i);
     }
