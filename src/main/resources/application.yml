@@ -42,7 +42,19 @@ spring:
     port: 6379
     password:
 
-#thymeleaf 通用模板
+  #freemarker 通用模板
+  freemarker:
+    enabled: false
+    cache: false
+    suffix: .ftl
+    content-type: text/html
+    template-loader-path: classpath:/templates/ #模板加载路径 按需配置
+    charset: UTF-8
+    settings:
+      number_format: '0.##'   #数字格式化，无小数点
+
+
+  #thymeleaf 通用模板
   thymeleaf:
     enabled: false                    #是否启用thymeleaf模板解析
     cache: false                      #是否开启模板缓存（建议：开发环境下设置为false，生产环境设置为true）
@@ -70,6 +82,7 @@ spring:
     #引用yml 文件
   profiles:
     active: cus      # 设置使用的配置文件为 random 后缀的
+
 
 
 # Mybatis-plus

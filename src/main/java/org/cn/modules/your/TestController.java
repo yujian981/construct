@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.*;
 
 /**
@@ -15,7 +17,6 @@ import java.util.*;
 @RestController
 @CrossOrigin("*")
 @RequestMapping("/login")
-@Transactional
 public class TestController {
 
 
@@ -50,6 +51,12 @@ public class TestController {
         //return "域名成功！";
     }
 
+    @GetMapping("/word")
+    public void getWord(){
+
+
+
+    }
     @Data
     private class User{
         private String id;
