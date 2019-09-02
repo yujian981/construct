@@ -21,12 +21,5 @@ public class MailUtil {
     @Value("${cus.email}")
     private String from;
 
-    public void sendMails(){
-        System.out.println("Git 更新测试");
-    }
-
-    public void senMailUtil(){
-        System.out.println(" ceshi ");
-    }
 
 }

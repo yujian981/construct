@@ -36,6 +36,21 @@ spring:
         stat:
           # 显示慢sql 默认当超过3秒显示
           log-slow-sql: true
+
+  # 工作流
+  activiti:
+    check-process-definitions: false
+    db-identity-used: true
+    # 自动生成Activiti相关表 第一次生成后建议关闭提高运行速度
+    database-schema-update: true
+    history-level: full
+    # 扩展配置
+    cty:
+      # 流程图字体 默认宋体
+      activityFontName: Microsoft YaHei
+      labelFontName: Microsoft YaHei
+
+
   # redis 相关参数配置
   redis:
     host: 127.0.0.1
@@ -52,7 +67,6 @@ spring:
     charset: UTF-8
     settings:
       number_format: '0.##'   #数字格式化，无小数点
-
 
   #thymeleaf 通用模板
   thymeleaf:
@@ -82,6 +96,7 @@ spring:
     #引用yml 文件
   profiles:
     active: cus      # 设置使用的配置文件为 random 后缀的
+
 
 
 

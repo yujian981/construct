@@ -144,30 +144,35 @@
         </dependency>
 
         <!-- Activiti -->
-        <!--        <dependency>-->
-        <!--            <groupId>org.activiti</groupId>-->
-        <!--            <artifactId>activiti-spring-boot-starter-basic</artifactId>-->
-        <!--            <version>5.22.0</version>-->
-        <!--            <exclusions>-->
-        <!--                <exclusion>-->
-        <!--                    <groupId>org.mybatis</groupId>-->
-        <!--                    <artifactId>mybatis</artifactId>-->
-        <!--                </exclusion>-->
-        <!--            </exclusions>-->
-        <!--        </dependency>-->
-        <!--        &lt;!&ndash; Activiti流程图 &ndash;&gt;-->
-        <!--        <dependency>-->
-        <!--            <groupId>org.activiti</groupId>-->
-        <!--            <artifactId>activiti-diagram-rest</artifactId>-->
-        <!--            <version>5.22.0</version>-->
-        <!--        </dependency>-->
-        <!--        &lt;!&ndash; Activiti在线设计 &ndash;&gt;-->
-        <!--        <dependency>-->
-        <!--            <groupId>org.activiti</groupId>-->
-        <!--            <artifactId>activiti-modeler</artifactId>-->
-        <!--            <version>5.22.0</version>-->
-        <!--        </dependency>-->
+                <dependency>
+                    <groupId>org.activiti</groupId>
+                    <artifactId>activiti-spring-boot-starter-basic</artifactId>
+                    <version>5.22.0</version>
+                    <exclusions>
+                        <exclusion>
+                            <groupId>org.mybatis</groupId>
+                            <artifactId>mybatis</artifactId>
+                        </exclusion>
+                    </exclusions>
+                </dependency>
+                <!-- Activiti流程图 -->
+                <dependency>
+                    <groupId>org.activiti</groupId>
+                    <artifactId>activiti-diagram-rest</artifactId>
+                    <version>5.22.0</version>
+                </dependency>
+                <!-- Activiti在线设计 -->
+                <dependency>
+                    <groupId>org.activiti</groupId>
+                    <artifactId>activiti-modeler</artifactId>
+                    <version>5.22.0</version>
+                </dependency>
 
+                <dependency>
+                    <groupId>org.activiti</groupId>
+                    <artifactId>activiti-diagram-rest</artifactId>
+                    <version>5.22.0</version>
+                </dependency>
     </dependencies>
 
     <build>
