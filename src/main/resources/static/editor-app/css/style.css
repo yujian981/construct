@@ -35,7 +35,7 @@
 }
 
 .editor-toolbar {
-	padding-left: 5px;
+	padding-left: 15px;
 }
 
 .editor-toolbar > .btn-group {
@@ -47,7 +47,8 @@
 }
 
 .editor-toolbar .btn.btn-inverse {
-	font-size: 24px;
+	font-size: 20px;
+	/*font-size: 24px;*/
 	color: #FFFFFF;
     border-color: rgba(0, 0, 0, 0);
     padding: 3px 6px 0px 6px;
@@ -60,13 +61,14 @@
     min-width: 36px;
 }
 .editor-toolbar .btn.btn-inverse.pressed {
-	background-color: #287d92;
+	background-color: #b3b5b5;
 	color: #174753;
 }
 
 .editor-toolbar .btn.btn-inverse.disabled, .editor-toolbar .btn.btn-inverse[disabled], .editor-toolbar .btn.btn-inverse[disabled]:active, .editor-toolbar .btn.btn-inverse[disabled]:hover {
-	background-color: #668b94;
-	border-color: #668b94;
+	/*background-color: #668b94;*/
+	background-color: #babcbc;
+	/*border-color: #668b94;*/
 }
 
 .editor-toolbar .btn.btn-inverse.separator {
@@ -83,7 +85,8 @@
 }
 
 .stencils {
-	border-right: 1pt solid #c7cacd;
+	/*border-right: 1pt solid #c7cacd;*/
+	border-right: 1px solid #e8eaec;
 	overflow: auto;
 	z-index: 5000;
 }
@@ -170,6 +173,7 @@
 div.canvas-wrapper {
 	overflow: auto;
 	background-color: #F8F8F8;
+	max-height: 570px;
 }
 
 .canvas_resize_indicator i {
@@ -223,15 +227,18 @@ div.canvas-wrapper {
 
 div.propertySection {
 	height: 250px;
-    background-color: #e8edf1;
+    /*background-color: #e8edf1;*/
+	background-color: #f9fafb;
 	margin-bottom: 0px;
 }
 
 .selected-item-title {
-    font-size: 25px;
+    /*font-size: 25px;*/
+	font-size: 20px;
     font-weight: bold;
     padding: 8px 0 8px 8px;
-    border-bottom: 1px solid #a4acb9;
+    /*border-bottom: 1px solid #a4acb9;*/
+	border-bottom: 1px solid #e8eaec;
     cursor: pointer;
 }
 
@@ -267,7 +274,8 @@ div.propertySection {
 }
 
 .selected-item-body .property-row:hover {
-	background-color: #d7dfe6;	
+	/*background-color: #d7dfe6;*/
+	background-color: #efefef;
 }
 
 .selected-item-body {
@@ -287,6 +295,7 @@ div.propertySection {
 	margin: 2px 2%;
 	padding: 0;	
 	min-height: 25px;
+	line-height: 25px;
 }
 
 .property-row span.value {

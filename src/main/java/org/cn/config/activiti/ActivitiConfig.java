@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * @author Exrickx
+ * @author Cty
  */
 @Slf4j
 @Configuration

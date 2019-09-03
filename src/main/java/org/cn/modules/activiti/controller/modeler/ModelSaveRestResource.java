@@ -15,6 +15,7 @@ package org.cn.modules.activiti.controller.modeler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.activiti.editor.constants.ModelDataJsonConstants;
 import org.activiti.engine.ActivitiException;
@@ -51,6 +52,7 @@ public class ModelSaveRestResource implements ModelDataJsonConstants {
   @Autowired
   private ActModelService actModelService;
 
+  @ApiOperation("新增创建流程")
   @RequestMapping(value="/model/{modelId}/save", method = RequestMethod.PUT)
   @ResponseStatus(value = HttpStatus.OK)
   public void saveModel(@PathVariable String modelId, @RequestParam("name") String name,

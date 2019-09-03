@@ -2,7 +2,7 @@ package org.cn.common.constant;
 
 /**
  * 常量
- * @author Exrickx
+ * @author Cty
  */
 public interface CommonConstant {
 

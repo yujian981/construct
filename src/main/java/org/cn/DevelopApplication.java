@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 
 /**
- * @Author Caoty
+ * @Author Cty
  **/
 // Activiti5.22需要排除 SecurityAutoConfiguration.class
 @SpringBootApplication(exclude = {

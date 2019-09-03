@@ -4,21 +4,22 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="close()">&times;</button>
-                <h2>{{'PROPERTY.PROPERTY.EDIT.TITLE' | translate:property}}</h2>
+                <!--<h2>{{'PROPERTY.PROPERTY.EDIT.TITLE' | translate:property}}</h2>-->
+				<div class="modal-header-inner">{{'PROPERTY.PROPERTY.EDIT.TITLE' | translate:property}}</div>
             </div>
             <div class="modal-body">
             
-                <div class="row row-no-gutter">
-                	<div class="col-xs-10">
+                <div class="row row-no-gutter" style="margin-bottom: 10px;">
+                	<div class="col-xs-12">
             	        <div ng-if="translationsRetrieved" class="kis-listener-grid" ng-grid="gridOptions"></div>
             	        <div class="pull-right">
             	            <div class="btn-group">
-            	                <a class="btn btn-icon btn-lg" rel="tooltip" data-title="{{ACTION.MOVE.UP | translate}}" data-placement="bottom" data-original-title="" title="" ng-click="moveListenerUp()"><i class="glyphicon glyphicon-arrow-up"></i></a>
-            	                <a class="btn btn-icon btn-lg" rel="tooltip" data-title="{{ACTION.MOVE.DOWN | translate}}" data-placement="bottom" data-original-title="" title="" ng-click="moveListenerDown()"><i class="glyphicon glyphicon-arrow-down"></i></a>
+            	                <a class="btn btn-icon" rel="tooltip" data-title="{{ACTION.MOVE.UP | translate}}" data-placement="bottom" data-original-title="" title="" ng-click="moveListenerUp()"><i class="glyphicon glyphicon-arrow-up"></i></a>
+            	                <a class="btn btn-icon" rel="tooltip" data-title="{{ACTION.MOVE.DOWN | translate}}" data-placement="bottom" data-original-title="" title="" ng-click="moveListenerDown()"><i class="glyphicon glyphicon-arrow-down"></i></a>
             	            </div>
             	            <div class="btn-group">
-            	                <a class="btn btn-icon btn-lg" rel="tooltip" data-title="{{ACTION.ADD | translate}}" data-placement="bottom" data-original-title="" title="" ng-click="addNewListener()"><i class="glyphicon glyphicon-plus"></i></a>
-            	                <a class="btn btn-icon btn-lg" rel="tooltip" data-title="{{ACTION.REMOVE | translate}}" data-placement="bottom" data-original-title="" title="" ng-click="removeListener()"><i class="glyphicon glyphicon-minus"></i></a>
+            	                <a class="btn btn-icon" rel="tooltip" data-title="{{ACTION.ADD | translate}}" data-placement="bottom" data-original-title="" title="" ng-click="addNewListener()"><i class="glyphicon glyphicon-plus"></i></a>
+            	                <a class="btn btn-icon" rel="tooltip" data-title="{{ACTION.REMOVE | translate}}" data-placement="bottom" data-original-title="" title="" ng-click="removeListener()"><i class="glyphicon glyphicon-minus"></i></a>
             	            </div>
             	        </div>
             		</div>
@@ -58,12 +59,12 @@
             	                	<option title="{{'EVENT_TYPE.VARIABLE.DELETED.TOOLTIP' | translate}}">VARIABLE_DELETED</option>
             	                	<option title="{{'EVENT_TYPE.VARIABLE.UPDATED.TOOLTIP' | translate}}">VARIABLE_UPDATED</option>
             	               	</select>
-            		            <i ng-if="$index > 0" class="glyphicon glyphicon-minus clickable-property" ng-click="removeEventValue($index)"></i>
-            		            <i class="glyphicon glyphicon-plus clickable-property" ng-click="addEventValue($index)"></i>
+            		            <i ng-if="$index > 0" class="glyphicon glyphicon-minus clickable-property" ng-click="removeEventValue($index)" style="padding: 5px 0;cursor: pointer"></i>
+            		            <i class="glyphicon glyphicon-plus clickable-property" ng-click="addEventValue($index)" style="padding: 5px 0;cursor: pointer"></i>
             	            </div>
             	            <div class="form-group">
             			   		<label for="classField">{{'PROPERTY.EVENTLISTENERS.RETHROW' | translate}}</label>
-            			   		<input type="checkbox" id="rethrowField" class="form-control" ng-model="selectedListeners[0].rethrowEvent" ng-change="listenerDetailsChanged()" />
+            			   		<input type="checkbox" id="rethrowField" class="form-control" ng-model="selectedListeners[0].rethrowEvent" ng-change="listenerDetailsChanged()" style="width: 18px;height: 18px;"/>
             				</div>
             	       	</div>
                      </div>

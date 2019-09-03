@@ -20,6 +20,8 @@
 
 var ACTIVITI = ACTIVITI || {};
 
+
 ACTIVITI.CONFIG = {
+	// 融合项目需要修改的地方
 	'contextRoot' : '/act',
 };

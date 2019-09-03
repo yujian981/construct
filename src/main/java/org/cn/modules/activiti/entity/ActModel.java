@@ -11,7 +11,7 @@ import javax.persistence.Table;
 
 
 /**
- * @author Exrick
+ * @author Cty
  */
 @Data
 @Entity

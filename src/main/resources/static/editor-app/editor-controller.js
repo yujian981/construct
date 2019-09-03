@@ -26,7 +26,7 @@ angular.module('activitiModeler')
 			$scope.handleResponseFunction(true);
 
             // Also clear any 'onbeforeunload', added by oryx
-            $window.onbeforeunload = undefined;
+            // $window.onbeforeunload = undefined;
 		}
 		$scope.$hide();
 	};

@@ -164,10 +164,14 @@ label {
 
 /** Buttons **/
 button.btn, a.btn {
-    background-color: #36a7c4;
-    color: #ffffff;
-    border-color: #ffffff;
+    /*background-color: #36a7c4;*/
+    background-color: #2d8cf0;
+    color: #fff;
+    border-color: #2d8cf0;
+    /*color: #ffffff;*/
+    /*border-color: #ffffff;*/
     font-size: 15px;
+    transition: color .2s linear,background-color .2s linear,border .2s linear,box-shadow .2s linear;
 }
 
 button.btn-subtle, a.btn-subtle {
@@ -188,10 +192,18 @@ button.btn.btn-danger {
     background-color: #c83737;
 }
 
-.btn:hover, .btn.active, .btn:focus {
-    background-color: #2a8198;
-    border-color: #ffffff;
-    color: #ffffff;
+.btn:hover, .btn.active  {
+    /*background-color: #2a8198;*/
+    /*border-color: #ffffff;*/
+    /*color: #ffffff;*/
+    background-color: #57a3f3;
+    border-color: #57a3f3;
+    color: #fff
+}
+
+.btn:focus {
+    box-shadow: 0 0 0 2px rgba(45,140,240,.2) !important;
+    outline: 0;
 }
 
 .btn.disabled, .btn[disabled], .btn[disabled]:active, .btn[disabled]:hover {
@@ -530,9 +542,11 @@ a.dropdown-toggle {
 
 /* Sub header */
 .subheader {
-    background-color: #e8edf1;
+    /*background-color: #e8edf1;*/
+    background-color: #f9fafb;
     min-height: 60px;
-    border-bottom: 1px solid #a4acb9;
+    /*border-bottom: 1px solid #a4acb9;*/
+    border-bottom: 1px solid #e8eaec;
 }
 
 .subheader > div > .btn-group {
@@ -936,7 +950,7 @@ a.dropdown-toggle {
 }
 
 .wrapper.full {
-    padding: 40px 0px 0px 0px;
+    padding: 0px 0px 0px 0px;
     overflow: hidden;
     max-width: 100%;
     min-width: 100%;
@@ -1487,11 +1501,27 @@ button.selection:active, button.selection:focus {
 
 
 .modal .modal-header {
-    position: relative;
-    background-color: #e8edf1;
-    min-height: 60px;
-    border-bottom: 1px solid #a4acb9;
-    padding: 15px 15px;
+    /*position: relative;*/
+    /*background-color: #e8edf1;*/
+    /*min-height: 60px;*/
+    /*border-bottom: 1px solid #a4acb9;*/
+    /*padding: 15px 15px;*/
+    border-bottom: 1px solid #e8eaec;
+    padding: 14px 16px;
+    line-height: 1;
+}
+
+.modal .modal-header-inner{
+    display: inline-block;
+    width: 95%;
+    height: 20px;
+    line-height: 20px;
+    font-size: 14px;
+    color: #17233d;
+    font-weight: 700;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .modal-header .actions {

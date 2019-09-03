@@ -4,7 +4,7 @@ package org.cn.common.utils;
 import org.cn.common.constant.Result;
 
 /**
- * @author Exrick
+ * @author Cty
  */
 public class ResultUtil<T> {
 

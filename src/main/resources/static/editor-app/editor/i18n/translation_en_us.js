@@ -214,7 +214,7 @@ if(!ORYX.I18N.Tester) ORYX.I18N.Tester = {};
 
 ORYX.I18N.Tester.group = "Testing";
 ORYX.I18N.Tester.name = "Test process";
-ORYX.I18N.Tester.desc = "Open the test component to test this process definition";
+ORYX.I18N.Tester.desc = "Open the design component to design this process definition";
 
 if(!ORYX.I18N.Undo) ORYX.I18N.Undo = {};
 
@@ -364,12 +364,12 @@ ORYX.I18N.SyntaxChecker.notice = "Move the mouse over a red cross icon to see th
 
 /** New Language Properties: 05.06.2009*/
 if(!ORYX.I18N.RESIZE) ORYX.I18N.RESIZE = {};
-ORYX.I18N.RESIZE.tipGrow = "Increase canvas size:";
-ORYX.I18N.RESIZE.tipShrink = "Decrease canvas size:";
-ORYX.I18N.RESIZE.N = "Top";
-ORYX.I18N.RESIZE.W = "Left";
-ORYX.I18N.RESIZE.S ="Down";
-ORYX.I18N.RESIZE.E ="Right";
+ORYX.I18N.RESIZE.tipGrow = "增加画布大小:";
+ORYX.I18N.RESIZE.tipShrink = "减小画布大小:";
+ORYX.I18N.RESIZE.N = "向上";
+ORYX.I18N.RESIZE.W = "向左";
+ORYX.I18N.RESIZE.S ="向下";
+ORYX.I18N.RESIZE.E ="向右";
 
 /** New Language Properties: 15.07.2009*/
 if(!ORYX.I18N.Layouting) ORYX.I18N.Layouting ={};
