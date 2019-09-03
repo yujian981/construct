@@ -43,7 +43,7 @@ import java.util.zip.ZipInputStream;
 @Slf4j
 @RestController
 @Api(description = "模型管理接口")
-@RequestMapping("/model")
+@RequestMapping("/actModel")
 @Transactional
 public class ActModelController {
 
