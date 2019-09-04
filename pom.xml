@@ -180,7 +180,11 @@
                     <artifactId>activiti-modeler</artifactId>
                     <version>5.22.0</version>
                 </dependency>
-
+                <dependency>
+                    <groupId>org.activiti</groupId>
+                    <artifactId>activiti-explorer</artifactId>
+                    <version>5.22.0</version>
+                </dependency>
                 <dependency>
                     <groupId>org.activiti</groupId>
                     <artifactId>activiti-diagram-rest</artifactId>

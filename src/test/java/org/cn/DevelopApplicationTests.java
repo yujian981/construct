@@ -33,19 +33,19 @@ public class DevelopApplicationTests {
     @Autowired
     private ProcessEngine processEngine;
 
+
+    //modeler.html?modelId=22501
+
     //资料 https://juejin.im/post/5aafa3eef265da23784015b9
+    //RepositoryService----操作静态的资源（流程定义，bpmn、png）
+    //RuntimeService-----操作流程实例（启动流程实例、查询流程实例、结束流程实例）
+    //TaskService-----操作任务（查询任务、办理任务）
+    //HistoryService----操作历史数据
     @Test
     @ApiOperation("启动流程")
     public void startProcess(){
-//        //取运行时服务
-//        RuntimeService runtimeService = processEngine.getRuntimeService();
-//        //取得流程实例
-//        ProcessInstance pi = runtimeService.startProcessInstanceByKey(processDefiKey);//通过流程定义的key 来执行流程
-//        System.out.println("流程实例id:"+pi.getId());//流程实例id
-//        System.out.println("流程定义id:"+pi.getProcessDefinitionId());//输出流程定义的id
-
        //指定执行我们刚才部署的工作流程
-        String processDefiKey="process";
+        String processDefiKey="ces";
         Map<String,Object> params=new HashMap<String, Object>();
         params.put("userID", "王某某");
         ProcessInstance pi = processEngine.getRuntimeService()
@@ -65,7 +65,7 @@ public class DevelopApplicationTests {
     @ApiOperation("查询任务")
     public void queryTask(){
         //任务的办理人
-        String assignee="";
+        String assignee="王某某";
         //取得任务服务
         TaskService taskService = processEngine.getTaskService();
         //创建一个任务查询对象
@@ -87,9 +87,11 @@ public class DevelopApplicationTests {
     @Test
     @ApiOperation("完成当前任务")
     public void compileTask(){
-        String taskId="17504";
+        String taskId="40004";
+        Map<String,Object> params=new HashMap<String, Object>();
+        params.put("result", "1");
         //taskId：任务id
-        processEngine.getTaskService().complete(taskId);
+        processEngine.getTaskService().complete(taskId,params);
         System.out.println("当前任务执行完毕");
     }
 
@@ -160,7 +162,7 @@ public class DevelopApplicationTests {
     @ApiOperation("删除流程定义")
     public void deleteProcessDefi(){
         //通过部署id来删除流程定义
-        String deploymentId="101";
+        String deploymentId="15003";
         processEngine.getRepositoryService().deleteDeployment(deploymentId);
     }
 
