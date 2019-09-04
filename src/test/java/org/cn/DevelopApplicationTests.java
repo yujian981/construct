@@ -6,6 +6,7 @@ import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.history.HistoricTaskInstance;
+import org.activiti.engine.history.HistoricVariableInstance;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
@@ -65,7 +66,7 @@ public class DevelopApplicationTests {
     @ApiOperation("查询任务")
     public void queryTask(){
         //任务的办理人
-        String assignee="王某某";
+        String assignee="张翠山";
         //取得任务服务
         TaskService taskService = processEngine.getTaskService();
         //创建一个任务查询对象
@@ -87,9 +88,10 @@ public class DevelopApplicationTests {
     @Test
     @ApiOperation("完成当前任务")
     public void compileTask(){
-        String taskId="40004";
+        String taskId="42503";
         Map<String,Object> params=new HashMap<String, Object>();
         params.put("result", "1");
+        params.put("assignee","王某某");
         //taskId：任务id
         processEngine.getTaskService().complete(taskId,params);
         System.out.println("当前任务执行完毕");
@@ -161,11 +163,19 @@ public class DevelopApplicationTests {
     @Test
     @ApiOperation("删除流程定义")
     public void deleteProcessDefi(){
-        //通过部署id来删除流程定义
-        String deploymentId="15003";
+        //通过部署id来删除流程定义 如果有启动中的流程无法删除 先执行 delPrcInById方法
+        String deploymentId="5001";
         processEngine.getRepositoryService().deleteDeployment(deploymentId);
     }
 
+
+    @Test
+    @ApiOperation("删除已经启动的任务")
+    public void delPrcInById(){
+        //通过部署id来删除流程定义
+        String proc_inst_id="17501";
+        processEngine.getRuntimeService().deleteProcessInstance(proc_inst_id, "原因");
+    }
 
     @Test
     @ApiOperation("开始流程")
@@ -177,6 +187,26 @@ public class DevelopApplicationTests {
         System.out.println("流程实例的id："+pi.getProcessInstanceId());//ProcessInstance 对象
         System.out.println("流程定义的id："+pi.getProcessDefinitionId());//默认执行的是最新版本的流程定义
     }
+
+
+    /**
+     * 4.查询历史流程变量(act_hi_varinst表)
+     */
+    @Test
+    public void findHistoryProcessVariables(){
+        String processInstanceId = "37501";
+        List<HistoricVariableInstance> list = processEngine.getHistoryService()
+                .createHistoricVariableInstanceQuery()                                      //创建一个历史的流程变量查询对象
+                .processInstanceId(processInstanceId)
+                .list();
+        if(list !=null && list.size()>0){
+            for(HistoricVariableInstance hvi:list){
+                System.out.println(hvi.getId()+"   "+hvi.getProcessInstanceId()+"   "+hvi.getVariableName()+"   "+hvi.getVariableTypeName()+"    "+hvi.getValue());
+                System.out.println("###############################################");
+            }
+        }
+    }
+
 
 
     @Test
@@ -219,21 +249,32 @@ public class DevelopApplicationTests {
     @Test
     @ApiOperation("查看历史实例执行任务信息")
     public void queryHistoryTask(){
-        String processInstanceId="17501";
+        String processInstanceId="37501";
         List<HistoricTaskInstance> list = processEngine.getHistoryService()
                 .createHistoricTaskInstanceQuery()
                 .processInstanceId(processInstanceId)
                 .list();
         if(list!=null&&list.size()>0){
             for(HistoricTaskInstance temp:list){
-                System.out.print("历史流程实例任务id:"+temp.getId());
-                System.out.print("历史流程定义的id:"+temp.getProcessDefinitionId());
-                System.out.print("历史流程实例任务名称: "+temp.getName());
-                System.out.println("历史流程实例任务处理人: "+temp.getAssignee());
+                System.out.print("历史流程实例任务id:   "+temp.getId());
+                System.out.print("历史流程定义的id:   "+temp.getProcessDefinitionId());
+                System.out.print("历史流程实例任务名称:   "+temp.getName());
+                System.out.println("历史流程实例任务处理人:   "+temp.getAssignee());
             }
         }
     }
 
+
+    //可以分配个人任务从一个人到另一个人（认领任务）
+    @Test
+    public void setAssigneeTask() {
+        //任务ID
+        String taskId = "45005";
+        //指定的办理人
+        String userId = "张翠山";
+        processEngine.getTaskService()//
+                .setAssignee(taskId, userId);
+    }
 
     @Test
     @ApiOperation("模拟流程变量设置")
@@ -295,14 +336,14 @@ public class DevelopApplicationTests {
     //设置流程变量值
     @Test
     public void setVariable(){
-        String taskId="20006";//任务id
+        String taskId="45005";//任务id
         //采用TaskService来设置流程变量
 
         //1. 第一次设置流程变量
-//		TaskService taskService = processEngine.getTaskService();
-//		taskService.setVariable(taskId, "cost", 1000);//设置单一的变量，作用域在整个流程实例
-//		taskService.setVariable(taskId, "申请时间", new Date());
-//		taskService.setVariableLocal(taskId, "申请人", "何某某");//该变量只有在本任务中是有效的
+		TaskService taskService = processEngine.getTaskService();
+		taskService.setVariable(taskId, "cost", 1000);//设置单一的变量，作用域在整个流程实例
+		taskService.setVariable(taskId, "申请时间", new Date());
+		taskService.setVariableLocal(taskId, "申请人", "张翠山");//该变量只有在本任务中是有效的
 
 
         //2. 在不同的任务中设置变量
@@ -316,14 +357,14 @@ public class DevelopApplicationTests {
          * - 简单的类型 ：String 、boolean、Integer、double、date
          * - 自定义对象bean
          */
-        TaskService taskService = processEngine.getTaskService();
-        //传递的一个自定义bean对象
-        AppayBillBean appayBillBean=new AppayBillBean();
-        appayBillBean.setId(1);
-        appayBillBean.setCost(300);
-        appayBillBean.setDate(new Date());
-        appayBillBean.setAppayPerson("何某某");
-        taskService.setVariable(taskId, "appayBillBean", appayBillBean);
+//        TaskService taskService = processEngine.getTaskService();
+//        //传递的一个自定义bean对象
+//        AppayBillBean appayBillBean=new AppayBillBean();
+//        appayBillBean.setId(1);
+//        appayBillBean.setCost(300);
+//        appayBillBean.setDate(new Date());
+//        appayBillBean.setAppayPerson("何某某");
+//        taskService.setVariable(taskId, "appayBillBean", appayBillBean);
 
 
         System.out.println("设置成功！");
@@ -343,24 +384,24 @@ public class DevelopApplicationTests {
     @Test
     @ApiOperation("查询流程变量")
     public void getVariable(){
-        String taskId="1804";//任务id
-//		TaskService taskService = processEngine.getTaskService();
-//		Integer cost=(Integer) taskService.getVariable(taskId, "cost");//取变量
-//		Date date=(Date) taskService.getVariable(taskId, "申请时间");//取本任务中的变量
-////		Date date=(Date) taskService.getVariableLocal(taskId, "申请时间");//取本任务中的变量
-//		String appayPerson=(String) taskService.getVariableLocal(taskId, "申请人");//取本任务中的变量
-////		String appayPerson=(String) taskService.getVariable(taskId, "申请人");//取本任务中的变量
-//
-//		System.out.println("金额:"+cost);
-//		System.out.println("申请时间:"+date);
-//		System.out.println("申请人:"+appayPerson);
+        String taskId="45005";//任务id
+		TaskService taskService = processEngine.getTaskService();
+		Integer cost=(Integer) taskService.getVariable(taskId, "cost");//取变量
+		Date date=(Date) taskService.getVariable(taskId, "申请时间");//取本任务中的变量
+//		Date date=(Date) taskService.getVariableLocal(taskId, "申请时间");//取本任务中的变量
+		String appayPerson=(String) taskService.getVariableLocal(taskId, "申请人");//取本任务中的变量
+//		String appayPerson=(String) taskService.getVariable(taskId, "申请人");//取本任务中的变量
+
+		System.out.println("金额:"+cost);
+		System.out.println("申请时间:"+date);
+		System.out.println("申请人:"+appayPerson);
 
 
         //读取实现序列化的对象变量数据
-        TaskService taskService = processEngine.getTaskService();
-        AppayBillBean appayBillBean=(AppayBillBean) taskService.getVariable(taskId, "appayBillBean");
-        System.out.println(appayBillBean.getCost());
-        System.out.println(appayBillBean.getAppayPerson());
+//        TaskService taskService = processEngine.getTaskService();
+//        AppayBillBean appayBillBean=(AppayBillBean) taskService.getVariable(taskId, "appayBillBean");
+//        System.out.println(appayBillBean.getCost());
+//        System.out.println(appayBillBean.getAppayPerson());
 
     }
 
