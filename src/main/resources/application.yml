@@ -3,7 +3,7 @@ jasypt:
     password: CTY
 
 server:
-  port: 8090
+  port: 9999
   servlet:
     context-path: /
   tomcat:
@@ -77,7 +77,7 @@ spring:
 
   #thymeleaf 通用模板
   thymeleaf:
-    enabled: false                    #是否启用thymeleaf模板解析
+    enabled: true                    #是否启用thymeleaf模板解析
     cache: false                      #是否开启模板缓存（建议：开发环境下设置为false，生产环境设置为true）
     prefix: classpath:/templates/     #前缀设置，SpringBoot默认模板放置在classpath:/template/目录下
     suffix: .html                     #后缀名设置
