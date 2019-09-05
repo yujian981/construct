@@ -22,10 +22,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.io.File;
 import java.io.InputStream;
 import java.io.Serializable;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.lang.reflect.Array;
+import java.util.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -46,11 +44,11 @@ public class DevelopApplicationTests {
     @ApiOperation("启动流程")
     public void startProcess(){
        //指定执行我们刚才部署的工作流程
-        String processDefiKey="ces";
+        String processDefiKey="ceshi";
         Map<String,Object> params=new HashMap<String, Object>();
-        params.put("userID", "王某某");
+        params.put("assignee", "唐僧");
         ProcessInstance pi = processEngine.getRuntimeService()
-                .startProcessInstanceByKey(processDefiKey, params);
+                .startProcessInstanceByKey(processDefiKey,params);
 
         System.out.println("流程执行对象的id：" + pi.getId());// Execution 对象
         System.out.println("流程实例的id：" + pi.getProcessInstanceId());// ProcessInstance
@@ -66,7 +64,7 @@ public class DevelopApplicationTests {
     @ApiOperation("查询任务")
     public void queryTask(){
         //任务的办理人
-        String assignee="张翠山";
+        String assignee="唐僧";
         //取得任务服务
         TaskService taskService = processEngine.getTaskService();
         //创建一个任务查询对象
@@ -88,12 +86,13 @@ public class DevelopApplicationTests {
     @Test
     @ApiOperation("完成当前任务")
     public void compileTask(){
-        String taskId="42503";
-        Map<String,Object> params=new HashMap<String, Object>();
-        params.put("result", "1");
-        params.put("assignee","王某某");
+        String taskId="32506";
+        Map<String,Object> map=new HashMap<>();
+        map.put("limit","3");
+        String[]v={"蜘蛛侠","青蜂侠","黑寡妇","钢铁侠"};
+        map.put("assigneeList", Arrays.asList(v));
         //taskId：任务id
-        processEngine.getTaskService().complete(taskId,params);
+        processEngine.getTaskService().complete(taskId,map);
         System.out.println("当前任务执行完毕");
     }
 
@@ -164,7 +163,7 @@ public class DevelopApplicationTests {
     @ApiOperation("删除流程定义")
     public void deleteProcessDefi(){
         //通过部署id来删除流程定义 如果有启动中的流程无法删除 先执行 delPrcInById方法
-        String deploymentId="5001";
+        String deploymentId="8";
         processEngine.getRepositoryService().deleteDeployment(deploymentId);
     }
 
@@ -173,20 +172,10 @@ public class DevelopApplicationTests {
     @ApiOperation("删除已经启动的任务")
     public void delPrcInById(){
         //通过部署id来删除流程定义
-        String proc_inst_id="17501";
+        String proc_inst_id="5001";
         processEngine.getRuntimeService().deleteProcessInstance(proc_inst_id, "原因");
     }
 
-    @Test
-    @ApiOperation("开始流程")
-    public void start(){
-        String processDefiKey="leaveActiviti";//bpmn 的 process id属性
-        ProcessInstance pi = processEngine.getRuntimeService()
-                .startProcessInstanceByKey(processDefiKey);
-        System.out.println("流程执行对象的id："+pi.getId());//Execution 对象
-        System.out.println("流程实例的id："+pi.getProcessInstanceId());//ProcessInstance 对象
-        System.out.println("流程定义的id："+pi.getProcessDefinitionId());//默认执行的是最新版本的流程定义
-    }
 
 
     /**
@@ -233,7 +222,7 @@ public class DevelopApplicationTests {
     @Test
     @ApiOperation("获取流程实例的状态")
     public void getProcessInstanceState(){
-        String processInstanceId="17501";
+        String processInstanceId="37501";
         ProcessInstance pi = processEngine.getRuntimeService()
                 .createProcessInstanceQuery()
                 .processInstanceId(processInstanceId)
@@ -269,74 +258,19 @@ public class DevelopApplicationTests {
     @Test
     public void setAssigneeTask() {
         //任务ID
-        String taskId = "45005";
+        String taskId = "35038";
         //指定的办理人
         String userId = "张翠山";
         processEngine.getTaskService()//
                 .setAssignee(taskId, userId);
     }
 
-    @Test
-    @ApiOperation("模拟流程变量设置")
-    public void  getAndSetProcessVariable(){
-        //有两种服务可以设置流程变量
-//		TaskService taskService = processEngine.getTaskService();
-//		RuntimeService runtimeService = processEngine.getRuntimeService();
-
-        /**1.通过 runtimeService 来设置流程变量
-         * executionId: 执行对象
-         * variableName：变量名
-         * values：变量值
-         */
-//		runtimeService.setVariable(executionId, variableName, values);
-//		runtimeService.setVariableLocal(executionId, variableName, values);
-        //设置本执行对象的变量 ，该变量的作用域只在当前的execution对象
-//		runtimeService.setVariables(executionId, variables);
-        //可以设置多个变量  放在 Map<key,value>  Map<String,Object>
-
-        /**2. 通过TaskService来设置流程变量
-         * taskId：任务id
-         */
-//		taskService.setVariable(taskId, variableName, values);
-//		taskService.setVariableLocal(taskId, variableName, values);
-////		设置本执行对象的变量 ，该变量的作用域只在当前的execution对象
-//		taskService.setVariables(taskId, variables); //设置的是Map<key,values>
-
-        /**3. 当流程开始执行的时候，设置变量参数
-         * processDefiKey: 流程定义的key
-         * variables： 设置多个变量  Map<key,values>
-         */
-//		processEngine.getRuntimeService()
-//		.startProcessInstanceByKey(processDefiKey, variables)
-
-        /**4. 当任务完成时候，可以设置流程变量
-         * taskId:任务id
-         * variables： 设置多个变量  Map<key,values>
-         */
-//		processEngine.getTaskService().complete(taskId, variables);
-
-
-        /** 5. 通过RuntimeService取变量值
-         * exxcutionId： 执行对象
-         *
-         */
-//		runtimeService.getVariable(executionId, variableName);//取变量
-//		runtimeService.getVariableLocal(executionId, variableName);//取本执行对象的某个变量
-//		runtimeService.getVariables(variablesName);//取当前执行对象的所有变量
-        /** 6. 通过TaskService取变量值
-         * TaskId： 执行对象
-         *
-         */
-//		taskService.getVariable(taskId, variableName);//取变量
-//		taskService.getVariableLocal(taskId, variableName);//取本执行对象的某个变量
-//		taskService.getVariables(taskId);//取当前执行对象的所有变量
-    }
 
 
     //设置流程变量值
     @Test
     public void setVariable(){
-        String taskId="45005";//任务id
+        String taskId="35038";//任务id
         //采用TaskService来设置流程变量
 
         //1. 第一次设置流程变量
