@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.cn.modules.activiti.dao.ActFormDao">
+
+    <insert id="setVariable">
+
+    iNSERT INTO t_act_form (ID_,CREATE_BY_,CREATE_TIME_,PROC_INST_ID_,SING_,TEXT_)
+            VALUES (#{ID_},#{CREATE_BY_},#{CREATE_TIME_},#{PROC_INST_ID_},#{SING_},#{TEXT_})
+
+    </insert>
+
+
+    <select id="getVariable" resultType="org.cn.modules.activiti.entity.ActFormEntity">
+
+        SELECT ID_,CREATE_BY_,CREATE_TIME_,PROC_INST_ID_,SING_,TEXT_ FROM t_act_form WHERE  PROC_INST_ID_=#{id}
+
+    </select>
+
+</mapper>
