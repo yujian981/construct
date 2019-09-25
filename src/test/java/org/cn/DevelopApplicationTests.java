@@ -177,8 +177,8 @@ public class DevelopApplicationTests {
         List<String> maps = new ArrayList<String>();
          map.put("limit","2");
         String[]v={"蜘蛛侠","青蜂侠","黑寡妇","钢铁侠","大黄蜂","杜爸爸"};//,
-//        map.put("assignee", v); Arrays.asList(v)
-      map.put("assigneeList", "蜘蛛侠");
+//        map.put("assignee", v);
+       map.put("assigneeList", Arrays.asList(v));
 //        maps.add("小A");
 //        maps.add("小B");
 //        maps.add("小C");

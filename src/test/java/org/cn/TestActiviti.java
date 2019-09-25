@@ -31,12 +31,12 @@ public class TestActiviti {
 //        System.out.println(variables);
 
         List<HistoricDetail> list = this.processEngine.getHistoryService().createHistoricDetailQuery().
-                processInstanceId("135001").list();
+                processInstanceId("147501").list();
         HistoricVariableUpdate variable = null;
         for (HistoricDetail historicDetail : list) {
             variable = (HistoricVariableUpdate) historicDetail;
-            System.out.println(variable);
-
+//            System.out.println(variable);
+            System.out.println(            ((HistoricVariableUpdate) historicDetail).getValue());
         }
     }
 
@@ -44,9 +44,9 @@ public class TestActiviti {
     @Test
     public void setValue(){
         TaskService taskService=processEngine.getTaskService(); // 任务Service
-        String taskId="147506";
-        taskService.setVariableLocal(taskId, "申请人", "唐僧");
-        taskService.setVariableLocal(taskId, "申请意见", "第一次");
+        String taskId="160040";
+        taskService.setVariableLocal(taskId, "申请人", "黑寡妇");
+        taskService.setVariableLocal(taskId, "申请意见", "第四次");
         taskService.setVariableLocal(taskId, "申请时间", new Date());
     }
 
