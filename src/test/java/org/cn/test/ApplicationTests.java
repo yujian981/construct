@@ -1,7 +1,6 @@
 package org.cn.test;
 
-import org.activiti.bpmn.converter.BpmnXMLConverter;
-import org.activiti.bpmn.model.BpmnModel;
+
 import org.cn.common.utils.RandomUtil;
 import org.cn.config.redis.RedisUtil;
 import org.junit.Test;
@@ -12,14 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import javax.xml.stream.XMLInputFactory;
-import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.XMLStreamReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import util.Mal;
 
 
 /**
@@ -41,6 +33,15 @@ public class ApplicationTests {
     private String from;
 
 
+    public <T> void show(T t){
+        System.out.println(t);
+    }
+
+    @Test
+    public void gets(){
+//        show("泛型测试");
+        Mal.wangbei();
+    }
 
 
     @Test

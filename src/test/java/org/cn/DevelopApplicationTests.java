@@ -1,21 +1,34 @@
 package org.cn;
 
+import cn.hutool.core.util.StrUtil;
 import io.swagger.annotations.ApiOperation;
 import lombok.Data;
 import org.activiti.engine.ProcessEngine;
+import org.activiti.engine.ProcessEngines;
 import org.activiti.engine.TaskService;
+import org.activiti.engine.form.TaskFormData;
+import org.activiti.engine.history.HistoricActivityInstance;
 import org.activiti.engine.history.HistoricTaskInstance;
+import org.activiti.engine.history.HistoricTaskInstanceQuery;
 import org.activiti.engine.history.HistoricVariableInstance;
+import org.activiti.engine.impl.RepositoryServiceImpl;
+import org.activiti.engine.impl.bpmn.behavior.ParallelMultiInstanceBehavior;
+import org.activiti.engine.impl.bpmn.behavior.UserTaskActivityBehavior;
+import org.activiti.engine.impl.persistence.entity.ExecutionEntity;
+import org.activiti.engine.impl.persistence.entity.ProcessDefinitionEntity;
+import org.activiti.engine.impl.pvm.PvmActivity;
+import org.activiti.engine.impl.pvm.PvmTransition;
+import org.activiti.engine.impl.pvm.process.ActivityImpl;
+import org.activiti.engine.impl.task.TaskDefinition;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
-import org.activiti.engine.task.Attachment;
-import org.activiti.engine.task.Comment;
-import org.activiti.engine.task.Task;
-import org.activiti.engine.task.TaskQuery;
+import org.activiti.engine.task.*;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.cn.modules.activiti.entity.ActContentEntity;
 import org.cn.modules.activiti.entity.ActFormEntity;
 import org.cn.modules.activiti.service.ActFormService;
 import org.junit.Test;
@@ -23,6 +36,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.w3c.dom.ls.LSInput;
 
 import javax.annotation.Resource;
 import java.io.File;
@@ -87,25 +101,214 @@ public class DevelopApplicationTests {
     }
 
 
+    //TODO  问题待处理
+    @Test //查询当前任务是否是会签任务
+    public void isMultiInstance(){
+        boolean flag = false;
+        Task task=processEngine.getTaskService().createTaskQuery() // 创建任务查询
+                .taskId("57545") // 根据任务id查询
+                .singleResult();
+        if(task != null){
+            // 获取流程定义id
+            String processDefinitionId=task.getProcessDefinitionId();
+
+            ProcessDefinitionEntity processDefinitionEntity=(ProcessDefinitionEntity) processEngine.getRepositoryService()
+                    .getProcessDefinition(processDefinitionId);
+
+            // 根据活动id获取活动实例
+            ActivityImpl activityImpl=processDefinitionEntity.findActivity(task.getTaskDefinitionKey());
+
+            if(((ActivityImpl) activityImpl).getActivityBehavior() instanceof ParallelMultiInstanceBehavior){
+                ParallelMultiInstanceBehavior behavior = (ParallelMultiInstanceBehavior)activityImpl.getActivityBehavior();
+                if(behavior != null && behavior.getCollectionExpression() != null){
+                    flag = true;
+                }
+            }
+        }
+        System.out.println(flag);
+    }
+
+
+    @Test
+    @ApiOperation(" 代办 查询")
+    public void todoList(){
+
+        TaskQuery query = processEngine.getTaskService().createTaskQuery().taskCandidateOrAssigned("小A");
+        List<Task> list = query.list();
+        System.out.println(list);
+
+        List<IdentityLink> identityLinksForProcessInstance = processEngine.getRuntimeService().getIdentityLinksForProcessInstance(list.get(0).getProcessInstanceId());
+
+        System.out.println(identityLinksForProcessInstance);
+    }
+
+
+    @Test
+    @ApiOperation("")
+    public void test1(){
+
+        //查询当前任务ID
+//        Task task = processEngine.getTaskService().createTaskQuery().processInstanceId("52501").taskAssignee("黑寡妇").singleResult();
+//        System.out.println(task);
+
+
+        processEngine.getTaskService().addComment("57538", "52501", "测试转交");
+        processEngine.getTaskService().delegateTask("57538", "旺旺");
+        processEngine.getTaskService().setOwner("57538", "黑寡妇");
+
+    }
+
+    //TODO 有疑问
+    @Test
+    @ApiOperation("已办理")
+    public void doneList(){
+        HistoricTaskInstanceQuery query = processEngine.getHistoryService().
+                createHistoricTaskInstanceQuery().or().taskCandidateUser("小A").
+                taskAssignee("蜘蛛侠").endOr().finished();
+        List<HistoricTaskInstance> list = query.list();
+        System.out.println(list);
+    }
+
     @Test
     @ApiOperation(value = "完成当前任务", notes = "多实例任务全部完成后才能进行转交 https://www.jianshu.com/p/dfad80be1dbf")
     public void compileTask() {
-        String taskId = "52506";
+        String taskId = "147506";
         Map<String, Object> map = new HashMap<>();
-        // map.put("limit","3");
-        String[]v={"蜘蛛侠","青蜂侠","黑寡妇","钢铁侠","大黄蜂","杜爸爸"};
-        map.put("assigneeList", Arrays.asList(v));
-        //流程变量
+        List<String> maps = new ArrayList<String>();
+         map.put("limit","2");
+        String[]v={"蜘蛛侠","青蜂侠","黑寡妇","钢铁侠","大黄蜂","杜爸爸"};//,
+//        map.put("assignee", v); Arrays.asList(v)
+      map.put("assigneeList", "蜘蛛侠");
+//        maps.add("小A");
+//        maps.add("小B");
+//        maps.add("小C");
+//        map.put("assignee",maps);
 
-        int [] arr={1,2,3,4,5,6,7,8,9,0};
-//        map.put("A1","测试1");
-//        map.put("A2",Arrays.asList(v));
-//        map.put("A3",new Date());
+
+        //流程变量
         //taskId：localScope=true 任务结束后不会存在实例 多人部署和 localScope 冲突
+        processEngine.getTaskService().resolveTask(taskId);
         processEngine.getTaskService().complete(taskId, map);
+
         System.out.println("当前任务执行完毕");
     }
 
+
+
+
+    @Test
+    public void getTaskList() {
+
+
+//        ProcessDefinitionEntity processDefinitionEntity = null;
+//
+//        String id = null;
+//
+//        TaskDefinition task = null;
+//
+//        //获取流程实例Id信息
+//        String processInstanceId = processEngine.getTaskService().createTaskQuery().taskId("147506").singleResult().getProcessInstanceId();
+//
+//        //获取流程发布Id信息
+//        String definitionId = processEngine.getRuntimeService().createProcessInstanceQuery().processInstanceId(processInstanceId).singleResult().getProcessDefinitionId();
+//
+//        processDefinitionEntity = (ProcessDefinitionEntity) ((RepositoryServiceImpl) processEngine.getRepositoryService())
+//                .getDeployedProcessDefinition(definitionId);
+//
+//        ExecutionEntity execution = (ExecutionEntity) processEngine.getRuntimeService().createProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
+//
+//        //当前流程节点Id信息
+//        String activitiId = execution.getActivityId();
+//
+//        //获取流程所有节点信息
+//        List<ActivityImpl> activitiList = processDefinitionEntity.getActivities();
+//
+//        //遍历所有节点信息
+//        for(ActivityImpl activityImpl : activitiList){
+//            String instance = (String) activityImpl.getProperties().get("multiInstance");
+//            System.out.println(instance);
+//            // 找到当前节点信息
+//            if (activitiId.equals(id)) {
+//
+//                //获取下一个节点信息
+////                task = nextTaskDefinition(activityImpl, activityImpl.getId(), null, processInstanceId);
+//
+//                break;
+//            }
+//        }
+
+    }
+
+    @Test
+    @ApiOperation("获取多实例")
+    public void getAct(){
+        Boolean activity = getActivity("147501");
+        System.out.println(activity);
+    }
+
+
+    private Boolean getActivity(String id){
+        ProcessDefinitionEntity processDefinitionEntity = null;
+//        String id = null;
+        TaskDefinition task = null;
+        //获取流程发布Id信息
+        String definitionId = processEngine.getRuntimeService().createProcessInstanceQuery().processInstanceId(id).singleResult().getProcessDefinitionId();
+
+        processDefinitionEntity = (ProcessDefinitionEntity) ((RepositoryServiceImpl) processEngine.getRepositoryService())
+                .getDeployedProcessDefinition(definitionId);
+
+        ExecutionEntity execution = (ExecutionEntity) processEngine.getRuntimeService().createProcessInstanceQuery().processInstanceId(id).singleResult();
+
+        //当前流程节点Id信息(暂未需要)
+        String activitiId = execution.getActivityId();
+
+        //获取流程所有节点信息
+        List<ActivityImpl> activitiList = processDefinitionEntity.getActivities();
+
+        for (int i = 0; i < activitiList.size(); i++) {
+
+            //验证节点参数
+            if (!("sid-E4515070-B23B-4FA9-ADE9-D1D09A60F1F7").equals(activitiList.get(i).getId())){
+                continue;
+            }
+            //验证是否是多实例任务
+            if (StrUtil.isNotBlank((String) activitiList.get(i).getProperties().get("multiInstance"))
+                    && ("parallel").equals((String) activitiList.get(i).getProperties().get("multiInstance"))){
+                return true;
+            }
+        }
+        return false;
+
+    }
+
+
+    @Test
+    public void getForm(){
+        TaskFormData taskFormData = processEngine.getFormService().getTaskFormData("57559");
+        String key = taskFormData.getFormKey();
+        System.out.println(key);
+    }
+
+    @Test
+    public void getActivityName(){
+
+        List<HistoricActivityInstance> list = processEngine.getHistoryService().createHistoricActivityInstanceQuery()
+                .processInstanceId("52501").unfinished() //未完成的活动(任务)
+                .list();
+        for (HistoricActivityInstance instance : list) {
+            System.out.println(instance);
+        }
+
+        //HistoricActivityInstance hai=historyService.createHistoricActivityInstanceQuery()//
+        //    .processInstanceId(hvi.getProcessInstanceId())//
+        //    .unfinished()
+        //    .singleResult();
+        //if(hai!=null){
+        //    map.put("piState", hai.getActivityName());// 流程状态
+        //}else{
+        //    map.put("piState", "完结");// 流程状态
+        //}
+    }
 
     @Test
     @ApiOperation("查看bpmn 资源图片")
@@ -238,21 +441,6 @@ public class DevelopApplicationTests {
     }
 
 
-    @Test
-    @ApiOperation("查询历史流程变量(act_hi_varinst表)")
-    public void findHistoryProcessVariables() {
-        String processInstanceId = "52501";
-        List<HistoricVariableInstance> list = processEngine.getHistoryService()
-                .createHistoricVariableInstanceQuery()                                      //创建一个历史的流程变量查询对象
-                .processInstanceId(processInstanceId)
-                .list();
-        if (list != null && list.size() > 0) {
-            for (HistoricVariableInstance hvi : list) {
-                System.out.println(hvi.getId() + "   " + hvi.getProcessInstanceId() + "   " + hvi.getVariableName() + "   " + hvi.getVariableTypeName() + "    " + hvi.getValue());
-                System.out.println("###############################################");
-            }
-        }
-    }
 
 
     @Test
@@ -382,12 +570,12 @@ public class DevelopApplicationTests {
     @ApiOperation("表单扩展--设置流程变量值")
     @Test
     public void setVariable() {
-        ActFormEntity act=new ActFormEntity();
+        ActContentEntity act=new ActContentEntity();
         act.setCREATE_BY_("小张");
         act.setCREATE_TIME_(new Date());
         act.setPROC_INST_ID_("1111");
         act.setSING_("个人");
-        act.setTEXT_("测试表单1");
+
         Object o = actFormService.setVariable(act);
         System.out.println(o);
         System.out.println("设置成功！");
@@ -409,18 +597,32 @@ public class DevelopApplicationTests {
     @ApiOperation("设置流程变量数据")
     public void setVariableValues(){
         TaskService taskService=processEngine.getTaskService(); // 任务Service
-        String taskId="15004";
-        taskService.setVariable(taskId, "days", 2);
-        taskService.setVariable(taskId, "date", new Date());
-        taskService.setVariable(taskId, "reason", "发烧");
-        Student student=new Student();
-        student.setId(1);
-        student.setName("张三");
-        taskService.setVariable(taskId, "student", student); // 存序列化对象
+        String taskId="147506";
+        //方法一： 变量名称相同每一次 替换前一次的变量信息
+//        taskService.setVariable(taskId, "days", 2);
+//        //方法二：变量名称相同 taskId不同 不会替换前一次的变量信息
+//        taskService.setVariableLocal(taskId, "days", 2);
+//        taskService.setVariableLocal(taskId, "date", new Date());
+//        taskService.setVariableLocal(taskId, "reason", "发烧");
+
+        //1. 第一次设置流程变量
+//		taskService.setVariable(taskId, "cost", 1000);//设置单一的变量，作用域在整个流程实例
+//		taskService.setVariable(taskId, "申请时间", new Date());
+
+		taskService.setVariableLocal(taskId, "申请人", "何某某");//该变量只有在本任务中是有效的
+		taskService.setVariableLocal(taskId, "申请人", "何某某");//该变量只有在本任务中是有效的
+		taskService.setVariableLocal(taskId, "申请人", "何某某");//该变量只有在本任务中是有效的
+
+
+        //2. 在不同的任务中设置变量
+//		taskService.setVariable(taskId, "cost", 5000);//设置单一的变量，作用域在整个流程实例
+//		taskService.setVariable(taskId, "申请时间", new Date());
+//		taskService.setVariableLocal(taskId, "申请人", "李某某");//该变量只有在本任务中是有效的
+        System.out.println("设置变量完成!");
     }
 
     @Data
-    public class Student{
+    class Student{
 
         private int Id;
         private String Name;
@@ -430,16 +632,51 @@ public class DevelopApplicationTests {
     @ApiOperation("获取流程变量数据")
     public void getVariableValues(){
         TaskService taskService=processEngine.getTaskService(); // 任务Service
-        String taskId="20002";
+        String taskId="57538";
         Integer days=(Integer) taskService.getVariable(taskId, "days");
         Date date=(Date) taskService.getVariable(taskId, "date");
         String reason=(String) taskService.getVariable(taskId, "reason");
-        Student student=(Student) taskService.getVariable(taskId, "student");
+//        Student student=(Student) taskService.getVariable(taskId, "student");
         System.out.println("请假天数："+days);
         System.out.println("请假日期："+date);
         System.out.println("请假原因："+reason);
-        System.out.println("请假对象："+student.getId()+","+student.getName());
+//        System.out.println("请假对象："+student.getId()+","+student.getName());
     }
 
+    @Test
+    @ApiOperation("")
+    public void getVaribleValues(){
+
+        TaskService taskService = processEngine.getTaskService();
+        List<Task> list = taskService.createTaskQuery()
+                .processInstanceId("52501").list();
+        for (Task task : list) {
+            System.out.println(task.getId());
+            TaskFormData taskFormData = processEngine.getFormService().getTaskFormData(task.getId());
+            System.out.println(taskFormData);
+        }
+
+
+    }
+
+
+    /**
+     * 4.查询历史流程变量(act_hi_varinst表)
+     */
+    @Test
+    public void findHistoryProcessVariables(){
+        String processInstanceId = "52501";
+        List<HistoricVariableInstance> list = processEngine.getHistoryService()
+                .createHistoricVariableInstanceQuery()                                      //创建一个历史的流程变量查询对象
+                .processInstanceId(processInstanceId)
+                .list();
+        if(list !=null && list.size()>0){
+            for(HistoricVariableInstance hvi:list){
+                System.out.println(hvi.getId()+"   "+hvi.getProcessInstanceId()+"   "+hvi.getVariableName()+"   "+hvi.getVariableTypeName()+"    "+hvi.getValue());
+                System.out.println("###############################################");
+            }
+        }
+
+    }
 
 }

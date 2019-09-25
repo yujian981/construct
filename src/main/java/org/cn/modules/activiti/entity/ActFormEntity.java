@@ -33,7 +33,7 @@ public class ActFormEntity implements Serializable {
     @ApiModelProperty("标记")
     private String SING_;
 
-    @ApiModelProperty("新增内容")
-    private String TEXT_;
+    @ApiModelProperty("外键")
+    private String PID_;
 
 }
