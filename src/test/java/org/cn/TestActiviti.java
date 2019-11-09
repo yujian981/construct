@@ -14,6 +14,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -21,6 +22,8 @@ public class TestActiviti {
 
     @Autowired
     private ProcessEngine processEngine;
+    @Autowired
+    TaskService taskService;
 
     @Test
     public void test1(){
@@ -50,5 +53,20 @@ public class TestActiviti {
         taskService.setVariableLocal(taskId, "申请时间", new Date());
     }
 
+
+    @Test
+    public void Commit() {
+        Scanner scan = new Scanner(System.in);
+        // 从键盘接收数据
+
+        // next方式接收字符串
+        System.out.println("next方式接收：");
+        // 判断是否还有输入
+        if (scan.hasNext()) {
+            String str1 = scan.next();
+            System.out.println("输入的数据为：" + str1);
+        }
+        scan.close();
+    }
 
 }

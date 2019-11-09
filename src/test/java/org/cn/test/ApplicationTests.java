@@ -11,7 +11,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.test.context.junit4.SpringRunner;
-import util.Mal;
 
 
 /**
@@ -40,7 +39,7 @@ public class ApplicationTests {
     @Test
     public void gets(){
 //        show("泛型测试");
-        Mal.wangbei();
+
     }
 
 

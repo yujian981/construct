@@ -15,7 +15,6 @@ import org.activiti.engine.repository.Model;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.cn.common.constant.Result;
 import org.cn.common.utils.ResultUtil;
-import org.cn.modules.activiti.entity.ActModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;

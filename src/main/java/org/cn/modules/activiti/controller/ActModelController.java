@@ -22,7 +22,6 @@ import org.apache.commons.io.IOUtils;
 import org.cn.common.constant.Result;
 import org.cn.common.exception.PublicException;
 import org.cn.common.utils.ResultUtil;
-import org.cn.modules.activiti.service.ActModelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -51,8 +50,6 @@ public class ActModelController {
     RepositoryService repositoryService;
     @Autowired
     ObjectMapper objectMapper;
-    @Autowired
-    private ActModelService actModelService;
 
     @ApiOperation("创建新模型(在线)")
     @RequestMapping("create")

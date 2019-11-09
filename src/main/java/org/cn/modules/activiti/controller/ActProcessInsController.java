@@ -3,6 +3,7 @@ package org.cn.modules.activiti.controller;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.activiti.engine.*;
+import org.cn.common.constant.Result;
 import org.cn.config.activiti.ActivitiExtendProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;

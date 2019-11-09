@@ -24,7 +24,6 @@ import org.activiti.engine.repository.Model;
 import org.apache.batik.transcoder.TranscoderInput;
 import org.apache.batik.transcoder.TranscoderOutput;
 import org.apache.batik.transcoder.image.PNGTranscoder;
-import org.cn.modules.activiti.service.ActModelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
@@ -48,9 +47,6 @@ public class ModelSaveRestResource implements ModelDataJsonConstants {
   
   @Autowired
   private ObjectMapper objectMapper;
-
-  @Autowired
-  private ActModelService actModelService;
 
   @ApiOperation("新增创建流程")
   @RequestMapping(value="/model/{modelId}/save", method = RequestMethod.PUT)

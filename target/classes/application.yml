@@ -1,0 +1,139 @@
+jasypt:
+  encryptor:
+    password: CTY
+
+server:
+  port: 9999
+  servlet:
+    context-path: /
+  tomcat:
+    uri-encoding: UTF-8
+    max-threads: 1000
+    min-spare-threads: 30
+spring:
+  datasource:       # 数据源
+    url: jdbc:mysql://127.0.0.1:3306/ccc?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    username: root
+    password: ENC(6SUD4D0Afg7iplLnYcyIgQ==)
+    type: com.alibaba.druid.pool.DruidDataSource
+    driverClassName: com.mysql.jdbc.Driver
+    logSlowSql: true
+    # Druid StatViewServlet配置
+    druid:
+      stat-view-servlet:
+        # 默认true 内置监控页面首页/druid/index.html
+        enabled: true
+        url-pattern: /druid/*
+        # 允许清空统计数据
+        reset-enable: true
+        login-username: root
+        login-password: ENC(Pst38Pq5c0Qijgf267b9zg==)
+        # IP白名单 多个逗号分隔
+        allow:
+        # IP黑名单
+        deny:
+      filter:
+        stat:
+          # 显示慢sql 默认当超过3秒显示
+          log-slow-sql: true
+
+  # 工作流
+  activiti:
+    check-process-definitions: false
+    db-identity-used: true
+    # 自动生成Activiti相关表 第一次生成后建议关闭提高运行速度
+    database-schema-update: true
+    history-level: full
+    # 扩展配置
+    cty:
+      # 流程图字体 默认宋体
+      activityFontName: Microsoft YaHei
+      labelFontName: Microsoft YaHei
+
+  jpa:
+    # 显示sql
+    show-sql: true
+    # 自动生成表结构
+    generate-ddl: true
+    hibernate:
+      ddl-auto: none
+
+  # redis 相关参数配置
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    password:
+
+  #freemarker 通用模板
+  freemarker:
+    enabled: false
+    cache: false
+    suffix: .ftl
+    content-type: text/html
+    template-loader-path: classpath:/templates/ #模板加载路径 按需配置
+    charset: UTF-8
+    settings:
+      number_format: '0.##'   #数字格式化，无小数点
+
+  #thymeleaf 通用模板
+  thymeleaf:
+    enabled: true                    #是否启用thymeleaf模板解析
+    cache: false                      #是否开启模板缓存（建议：开发环境下设置为false，生产环境设置为true）
+    prefix: classpath:/templates/     #前缀设置，SpringBoot默认模板放置在classpath:/template/目录下
+    suffix: .html                     #后缀名设置
+    encoding: UTF-8                   #模板的编码设置，默认UTF-8
+    mode: HTML5                       #模板模式
+    servlet:                          #模板的媒体类型设置，默认为text/html
+      content-type: text/html
+
+
+
+  # Email 邮件服务器
+  mail:
+    host: smtp.163.com          #邮箱服务器地址
+    username: 15116952620@163.com
+    password: ENC(KlwuFuGLW1vyWjZeLsS19g==)
+    default-encoding: utf-8
+
+  # 设置 项目logo 在将自己的 favicon.ico 放到src/main/resources/static下
+  mvc:
+    favicon:
+      enabled: false
+
+    #引用yml 文件
+  profiles:
+    active: cus      # 设置使用的配置文件为 random 后缀的
+
+
+
+
+# Mybatis-plus
+mybatis-plus:
+  mapper-locations: classpath*:mapper/*.xml    # xml
+  type-aliases-package: org.cn.modules.*.entity
+  configuration:     # 这个配置会将执行的sql打印出来，在开发或测试的时候可以用
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+
+# Swagger界面内容配置
+swagger:
+  title: Develop API接口文档
+  description: Develop Api Documentation
+  version: 1.0.0
+  termsOfServiceUrl: http://192.168.80.22:8090/swagger-ui.html
+  contact:
+    name: Caoty
+    url: 我与码农的故事
+    email: 15116952620@163.com
+
+
+
+# logging 日志
+logging:
+  path: ./log/         #文件路径
+  file:
+    file: cty-logs/cty.log
+    max-size: 10MB        #文件大小
+  level:
+    root: info            # root日志 以WARN级别输出
+    com.example.log_demo.log1: warn           # 此包下所有class以DEBUG级别输出
