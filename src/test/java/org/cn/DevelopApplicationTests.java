@@ -60,10 +60,9 @@ public class DevelopApplicationTests {
 //        taskService.setAssignee();
 //        taskService.claim();
 
-//        params.put("leader", "唐僧");
-        String[]v={"蜘蛛侠","青蜂侠","黑寡妇","钢铁侠","大黄蜂","杜爸爸"};//,
-//        map.put("assignee", v);
-        params.put("assigneeList", Arrays.asList(v));
+        params.put("leader", "唐僧");
+//        String[]v={"蜘蛛侠","青蜂侠","黑寡妇","钢铁侠","大黄蜂","杜爸爸"};//,
+//        params.put("assigneeList", Arrays.asList(v));
         ProcessInstance pi = processEngine.getRuntimeService()
                 .startProcessInstanceById(processDefiKey, params);
         System.out.println("流程执行对象的id：" + pi.getId());// Execution 对象
@@ -97,6 +96,22 @@ public class DevelopApplicationTests {
             }
         }
     }
+
+    @Test
+    public void getDef() {
+        // 当前执行节点id
+        ProcessInstance pi = processEngine.getRuntimeService().createProcessInstanceQuery().processInstanceId("27501").singleResult();
+        if (pi != null && pi.getActivityId() != null) {
+            //当前执行节点流程ID
+            String currActId = pi.getActivityId();
+            ProcessDefinitionEntity dfe = (ProcessDefinitionEntity) ((RepositoryServiceImpl) processEngine.getRepositoryService()).getDeployedProcessDefinition(pi.getProcessDefinitionId());
+            // 获取所有节点
+            List<ActivityImpl> ac = dfe.getActivities();
+            System.out.println(ac);
+        }
+
+    }
+
 
 
     public boolean isMultiInstance(String taskId){
@@ -198,7 +213,7 @@ public class DevelopApplicationTests {
     @Test
     @ApiOperation(value = "完成当前任务", notes = "多实例任务全部完成后才能进行转交 https://www.jianshu.com/p/dfad80be1dbf")
     public void compileTask() {
-        String taskId = "20008";
+        String taskId = "27508";
         Map<String, Object> map = new HashMap<>();
         List<String> maps = new ArrayList<String>();
 //         map.put("limit","2");
