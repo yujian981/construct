@@ -12,9 +12,9 @@ server:
     min-spare-threads: 30
 spring:
   datasource:       # 数据源
-    url: jdbc:mysql://192.168.80.239:3306/ ?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    url: jdbc:mysql://127.0.0.1:3306/xboot?useUnicode=true&characterEncoding=utf-8&useSSL=false
     username: root
-    password: ENC(OWBZjN9kMQq6kWg0lFGhjHRzLO0BdDzQVlpb6zBeutN8VJp5o4ewmAWF8W0J138V)
+    password: ENC(Ac3aWECtq2MEDDmtFpB6Bw==)
     type: com.alibaba.druid.pool.DruidDataSource
     driverClassName: com.mysql.jdbc.Driver
     logSlowSql: true
@@ -55,6 +55,7 @@ spring:
     show-sql: true
     # 自动生成表结构
     generate-ddl: true
+    #每次加载hibernate时根据model类生成表，但是sessionFactory一关闭,表就自动删除
     hibernate:
       ddl-auto: none
 
